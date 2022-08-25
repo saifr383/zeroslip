@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "689257877289",
+    "project_id": "zeroslip-6c573",
+    "storage_bucket": "zeroslip-6c573.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689257877289:android:48430cdf10ccb1f47a3138",
+        "android_client_info": {
+          "package_name": "com.zeroslip"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689257877289-6h3g36gf2rqj08688umtd4kog35dac9c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBP-mEiL1yYri04lXpp1tQN9vZuR6osZFI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689257877289-6h3g36gf2rqj08688umtd4kog35dac9c.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "689257877289-5d67clpv2t9b14i3p6n5idf5uel2uhsc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.zeroslip"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

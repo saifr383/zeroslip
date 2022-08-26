@@ -31,7 +31,9 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                 child: Column(
                   children: [
                     Container(
-                      decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(15)),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
                       padding: EdgeInsets.symmetric(vertical: 8),
                       margin: EdgeInsets.symmetric(vertical: 5),
                       child: Column(
@@ -66,10 +68,9 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                               width: 80,
                               fit: BoxFit.fill,
                             ),
-                            errorWidget: (context, url, error) =>
-                                Image.asset('assets/images/defaultbrandlogo.png'),
+                            errorWidget: (context, url, error) => Image.asset(
+                                'assets/images/defaultbrandlogo.png'),
                           ),
-
                           Text(
                             snapshot.data!.merchant!.name!,
                             style: const TextStyle(
@@ -87,10 +88,13 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500),
                           ),
-SizedBox(height: 5,),
+                          SizedBox(
+                            height: 5,
+                          ),
                           Text(
                             '${snapshot.data!.createdAt.day}/${snapshot.data!.createdAt.month}/${snapshot.data!.createdAt.year} at ${snapshot.data!.createdAt.hour}:${snapshot.data!.createdAt.minute}',
-                            style: const TextStyle(color: Colors.black, fontSize: 15),
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 15),
                           ),
                         ],
                       ),
@@ -99,7 +103,9 @@ SizedBox(height: 5,),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 5),
                       padding: EdgeInsets.symmetric(vertical: 8),
-                      decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(15)),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
                       child: ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -112,7 +118,8 @@ SizedBox(height: 5,),
                               child: Row(
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         snapshot.data!.items![index].name!,
@@ -146,36 +153,61 @@ SizedBox(height: 5,),
                     ),
 
                     Container(
-                      margin:EdgeInsets.symmetric(vertical: 5),
+                      margin: EdgeInsets.symmetric(vertical: 5),
                       padding: EdgeInsets.symmetric(vertical: 8),
-                      decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(15)),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
                       child: Column(
                         children: [
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                            child: Row(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 8),
+                            child: Column(
                               children: [
-                                const Text(
-                                  'GST included in total',
-                                  style: TextStyle(color: Colors.black, fontSize: 15),
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'GST included in total',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      '-Rs${snapshot.data!.salesTax.toString()}',
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15),
+                                    ),
+                                  ],
                                 ),
-                                const Spacer(),
-                                Text(
-                                  '-Rs${snapshot.data!.salesTax.toString()}',
-                                  style: const TextStyle(
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: 15),
+                                SizedBox(height: 8,),
+                                Row(
+                                  children: [
+                                    const Text(
+                                      'VAT included in total',
+                                      style: TextStyle(
+                                          color: Colors.black, fontSize: 15),
+                                    ),
+                                    const Spacer(),
+                                    Text(
+                                      '-Rs${snapshot.data!.vatTax.toString()}',
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 8),
                             child: Row(
                               children: [
                                 const Text(
@@ -201,42 +233,12 @@ SizedBox(height: 5,),
                     ),
 
                     Container(
-                      width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.symmetric(vertical: 5),
-
-                      decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(15)),
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                      child: Row(
-                        children: [
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/images/cardicon.svg',
-                              ),
-                              const SizedBox(
-                                width: 5,
-                              ),
-                              Text(
-                                '${snapshot.data!.posReceiptNumber}',
-                                style:
-                                    const TextStyle(color: Colors.grey, fontSize: 15),
-                              ),
-                            ],
-                          ),
-                          const Spacer(),
-                          Text(
-                            '-Rs${snapshot.data!.grandTotal.toString()}',
-                            style: const TextStyle(color: Colors.grey, fontSize: 15),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
                       width: Get.width,
                       padding: EdgeInsets.symmetric(vertical: 8),
                       margin: EdgeInsets.symmetric(vertical: 5),
-                      decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(15)),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
                       child: Column(
                         children: [
                           const Text(
@@ -248,7 +250,8 @@ SizedBox(height: 5,),
                           ),
                           Text(
                             snapshot.data!.receiptNumber.toString(),
-                            style: const TextStyle(color: Colors.black, fontSize: 18),
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 18),
                           ),
                           const SizedBox(
                             height: 10,
@@ -261,7 +264,8 @@ SizedBox(height: 5,),
                           ),
                           Text(
                             snapshot.data!.receiptNumber.toString(),
-                            style: const TextStyle(color: Colors.black, fontSize: 18),
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 18),
                           ),
                           const SizedBox(
                             height: 20,
@@ -272,7 +276,9 @@ SizedBox(height: 5,),
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 5),
                       padding: EdgeInsets.symmetric(vertical: 8),
-                      decoration: BoxDecoration(color: Colors.white,borderRadius: BorderRadius.circular(15)),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
                       child: Column(
                         children: [
                           Text(
@@ -319,7 +325,6 @@ SizedBox(height: 5,),
                           const SizedBox(
                             height: 10,
                           ),
-
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -354,50 +359,66 @@ SizedBox(height: 5,),
                       'assets/images/samplead.png',
                       width: Get.width,
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'POWERED BY ',
-                          style: TextStyle(color: Colors.black, fontSize: 18),
-                        ),
-                        Image.asset(
-                          'assets/images/logo.png',
-                          height: 50,
-                          width: 80,
-                        )
-                      ],
+
+                    Container(
+                      width: Get.width,
+                      padding: EdgeInsets.symmetric(vertical: 8),
+                      margin: EdgeInsets.symmetric(vertical: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(15)),
+                      child: Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                'POWERED BY ',
+                                style: TextStyle(color: Colors.black, fontSize: 18),
+                              ),
+                              Image.asset(
+                                'assets/images/logo.png',
+                                height: 50,
+                                width: 80,
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            'This receipt is generated by ZeroSlip, a trusted third-party provider.\nPlease contact the merchant directly for any receipt queries.',
+                            style: TextStyle(color: Colors.black, fontSize: 13),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          Text(
+                            'Receipt id:${snapshot.data!.receiptNumber}',
+                            style: const TextStyle(color: Colors.black, fontSize: 13),
+                            textAlign: TextAlign.center,
+                          ),
+                          const SizedBox(
+                            height: 50,
+                          ),
+                          Text(
+                            'Privacy Policy | Unsubscribe from promotions',
+                            style: TextStyle(color: mainColor, fontSize: 13),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            '© 2022 ZeroSlip Pvt Ltd',
+                            style: TextStyle(color: Colors.black, fontSize: 13),
+                          ),
+                        ],
+                      ),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
-                    const Text(
-                      'This receipt is generated by ZeroSlip, a trusted third-party provider.\nPlease contact the merchant directly for any receipt queries.',
-                      style: TextStyle(color: Colors.black, fontSize: 13),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    Text(
-                      'Receipt id:${snapshot.data!.receiptNumber}',
-                      style: const TextStyle(color: Colors.black, fontSize: 13),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 50,),
-                    Text(
-                      'Privacy Policy | Unsubscribe from promotions',
-                      style: TextStyle(color: mainColor, fontSize: 13),
-                    ),
-                    const SizedBox(height: 10,),
-                    const Text(
-                      '© 2022 ZeroSlip Pvt Ltd',
-                      style: TextStyle(color: Colors.black, fontSize: 13),
-                    ),
-                    const SizedBox(height: 40,),
                     // Text(
                     //   'How was our Service',
                     //   style: TextStyle(

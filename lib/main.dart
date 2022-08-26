@@ -4,12 +4,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:untitled1/services/notifications.dart';
+import 'package:untitled1/view/dashboard.dart';
 import 'package:untitled1/view/loginscreen.dart';
 import 'package:untitled1/view/receipt.dart';
 import 'package:untitled1/view/splashscreen.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
+import 'controller/authcontroller.dart';
+import 'model/authModel.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   print('Handling a background message ${message.messageId}');
@@ -45,24 +50,48 @@ class _MyAppState extends State<MyApp> {
       }
     },
   );
-  FirebaseMessaging.onMessageOpenedApp.listen((message) {
+  FirebaseMessaging.onMessageOpenedApp.listen((message) async {
    log("FirebaseMessaging.onMessage.listenjddddddddddddddddddddddddddddddddddd");
+   if (message != null) {
+     final prefs = await SharedPreferences.getInstance();
+     final String? token = prefs.getString('login')??'';
+     if(token==null){
+       Get.to(()=>LoginScreen());
+     }
+     else{
+       final String? token = prefs.getString('login')??'';
+       final String? refresh = prefs.getString('refresh')??'';
+       final String? phone = prefs.getString('phoneno')??'';
+       AuthController _controller=Get.put(AuthController());
+       _controller.currentUser=AuthModel(access: token!, refresh: refresh!);
+
+       _controller.phoneNumber.text=phone!;
+       _controller..navcontroller.jumpToTab(2);
+       Get.to(()=>DashBoard());
+     }
+   }
+
 
   },);
   FirebaseMessaging.instance.getInitialMessage().then(
-        (message) {
-      print("FirebaseMessaging.instance.getInitialMessage");
+        (message) async {
       if (message != null) {
-        print("New Notification");
-        // if (message.data['_id'] != null) {
-        //   Navigator.of(context).push(
-        //     MaterialPageRoute(
-        //       builder: (context) => DemoScreen(
-        //         id: message.data['_id'],
-        //       ),
-        //     ),
-        //   );
-        // }
+        final prefs = await SharedPreferences.getInstance();
+        final String? token = prefs.getString('login')??'';
+       if(token==null){
+         Get.to(()=>LoginScreen());
+       }
+       else{
+         final String? token = prefs.getString('login')??'';
+         final String? refresh = prefs.getString('refresh')??'';
+         final String? phone = prefs.getString('phoneno')??'';
+         AuthController _controller=Get.put(AuthController());
+         _controller.currentUser=AuthModel(access: token!, refresh: refresh!);
+
+         _controller.phoneNumber.text=phone!;
+         _controller..navcontroller.jumpToTab(2);
+         Get.to(()=>DashBoard());
+       }
       }
     },
   );

@@ -106,7 +106,8 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 15,
                       ),
-                      SizedBox(
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
                         width: MediaQuery.of(context).size.width,
                         child: const Text(
                           'We’ll text you to confirm your number. Standard message and data rates apply.',

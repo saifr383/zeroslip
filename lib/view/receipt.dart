@@ -61,7 +61,7 @@ class _ReceiptState extends State<Receipt> {
 
               if (snapshot.hasData) {
                 print('data comeeeeeeeeeeeeees');
-                var groupByDate = groupBy(snapshot.data!, (ReceiptModel obj) => DateTime(obj.createdAt.year,obj.createdAt.month));
+                var groupByDate = groupBy(snapshot.data!, (ReceiptModel obj) => DateTime(obj.createdAt!.year,obj.createdAt!.month));
                 List<DateTime> keys=groupByDate.keys.toList();
                print(groupByDate.length);
                 return Padding(
@@ -168,11 +168,11 @@ class _ReceiptState extends State<Receipt> {
                                                       groupByDate[keys[indexdate]]![index].merchant!
                                                           .name) &&
                                               ((groupByDate[keys[indexdate]]![index].createdAt
-                                                      .millisecondsSinceEpoch) >=
+                                                      !.millisecondsSinceEpoch) >=
                                                   _controller.start.value
                                                       .millisecondsSinceEpoch) &&
                                               ((groupByDate[keys[indexdate]]![index].createdAt
-                                                      .millisecondsSinceEpoch) <=
+                                                      !.millisecondsSinceEpoch) <=
                                                   _controller.end.value
                                                       .millisecondsSinceEpoch))
                                           ? Column(
@@ -227,7 +227,7 @@ class _ReceiptState extends State<Receipt> {
                                                                       FontWeight.bold),
                                                             ),
                                                             Text(
-                                                              '${days[groupByDate[keys[indexdate]]![index].createdAt.weekday - 1]}, ${groupByDate[keys[indexdate]]![index].createdAt.day} ${months[groupByDate[keys[indexdate]]![index].createdAt.month - 1]}',
+                                                              '${days[groupByDate[keys[indexdate]]![index].createdAt!.weekday - 1]}, ${groupByDate[keys[indexdate]]![index].createdAt!.day} ${months[groupByDate[keys[indexdate]]![index].createdAt!.month - 1]}',
                                                               style: TextStyle(
                                                                 color: Color(0xff263238),
                                                               ),
@@ -236,7 +236,7 @@ class _ReceiptState extends State<Receipt> {
                                                         ),
                                                         Spacer(),
                                                         Text(
-                                                          '-Rs ${groupByDate[keys[indexdate]]![index].grandTotal}',
+                                                          '${groupByDate[keys[indexdate]]![index].merchant!.country!.currency!.denotion!.substring(0,2)} ${groupByDate[keys[indexdate]]![index].grandTotal}',
                                                           style: TextStyle(
                                                               color: Colors.black,
                                                               fontWeight: FontWeight.bold),

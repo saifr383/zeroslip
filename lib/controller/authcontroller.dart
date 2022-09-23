@@ -37,6 +37,7 @@ class AuthController extends GetxController
     }
   }
   Future<void> resendOtp() async {
+    loading.value=true;
       bool response=await Services.generateOtp(phoneNo: phoneNumber.text);
       if(response){
         Get.snackbar('Success', 'Otp resend Successfully');
@@ -44,6 +45,7 @@ class AuthController extends GetxController
       else {
         Get.snackbar('Error', 'Something went wrong Please try again');
       }
+    loading.value=false;
 
 
   }

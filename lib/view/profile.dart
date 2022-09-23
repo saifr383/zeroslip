@@ -239,6 +239,7 @@ class _ProfileState extends State<Profile> {
                                     horizontal: 25.0),
                                 child: ElevatedButton(
                                     onPressed: () async {
+                                      FocusManager.instance.primaryFocus!.unfocus();
                                       _authController.loading.value = true;
                                       ProfileModel newuser = _myNetworkFuture!;
                                       print(fname.text.isNotEmpty);

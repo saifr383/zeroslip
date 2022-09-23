@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:untitled1/utils/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../model/receiptmodel.dart';
 import '../services/services.dart';
@@ -58,9 +60,10 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                             height: 10,
                           ),
                           CachedNetworkImage(
-                            imageUrl: snapshot.data!.merchant!.logoUrl!,
-                            height: 80,
-                            width: 100,
+                            imageUrl:
+                                '${Constants.baseUrl}${snapshot.data!.merchant!.logoUrl!.substring(6)}',
+                            height: 120,
+                            width: 150,
                             fit: BoxFit.fill,
                             placeholder: (context, url) => Image.asset(
                               'assets/images/defaultbrandlogo.png',
@@ -92,7 +95,7 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                             height: 5,
                           ),
                           Text(
-                            '${snapshot.data!.createdAt.day}/${snapshot.data!.createdAt.month}/${snapshot.data!.createdAt.year} at ${snapshot.data!.createdAt.hour}:${snapshot.data!.createdAt.minute}',
+                            '${snapshot.data!.createdAt!.day}/${snapshot.data!.createdAt!.month}/${snapshot.data!.createdAt!.year} at ${snapshot.data!.createdAt!.hour}:${snapshot.data!.createdAt!.minute}',
                             style: const TextStyle(
                                 color: Colors.black, fontSize: 15),
                           ),
@@ -113,38 +116,48 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                           itemBuilder: (context, index) {
                             return Container(
                               width: MediaQuery.of(context).size.width,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 15, vertical: 8),
+                              padding: const EdgeInsets.only(
+                                  left: 15, top: 8, bottom: 8, right: 5),
                               child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        snapshot.data!.items![index].name!,
-                                        style: const TextStyle(
-                                            color: Colors.black, fontSize: 15),
-                                      ),
-                                      Text(
-                                        "Price:${snapshot.data!.items![index].price.toString()}",
-                                        style: const TextStyle(
-                                            color: Colors.black, fontSize: 12),
-                                      ),
-                                      Text(
-                                        "Quantity:${snapshot.data!.items![index].quantity.toString()}",
-                                        style: const TextStyle(
-                                            color: Colors.black, fontSize: 12),
-                                      ),
-                                    ],
+                                  Expanded(
+                                    flex: 4,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          snapshot.data!.items![index].name!,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 15),
+                                        ),
+                                        Text(
+                                          "Price:${snapshot.data!.items![index].price.toString()}",
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12),
+                                        ),
+                                        Text(
+                                          "Quantity:${snapshot.data!.items![index].quantity.toString()}",
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 12),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  const Spacer(),
-                                  Text(
-                                    '-Rs${snapshot.data!.items![index].total.toString()}',
-                                    style: const TextStyle(
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 15),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Text(
+                                      '${snapshot.data!.merchant!.country!.currency!.denotion!.substring(0, 2)} ${snapshot.data!.items![index].total.toString()}',
+                                      style: const TextStyle(
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 15),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -175,7 +188,7 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                                     ),
                                     const Spacer(),
                                     Text(
-                                      '-Rs${snapshot.data!.salesTax.toString()}',
+                                      '${snapshot.data!.merchant!.country!.currency!.denotion!.substring(0, 2)} ${snapshot.data!.salesTax.toString()}',
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500,
@@ -183,7 +196,9 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 8,),
+                                SizedBox(
+                                  height: 8,
+                                ),
                                 Row(
                                   children: [
                                     const Text(
@@ -193,7 +208,7 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                                     ),
                                     const Spacer(),
                                     Text(
-                                      '-Rs${snapshot.data!.vatTax.toString()}',
+                                      '${snapshot.data!.merchant!.country!.currency!.denotion!.substring(0, 2)} ${snapshot.data!.vatTax.toString()}',
                                       style: const TextStyle(
                                           color: Colors.black,
                                           fontWeight: FontWeight.w500,
@@ -219,7 +234,7 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                                 ),
                                 const Spacer(),
                                 Text(
-                                  '-Rs${snapshot.data!.total.toString()}',
+                                  '${snapshot.data!.merchant!.country!.currency!.denotion!.substring(0, 2)} ${snapshot.data!.total.toString()}',
                                   style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 18,
@@ -249,7 +264,7 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                             height: 10,
                           ),
                           Text(
-                            snapshot.data!.receiptNumber.toString(),
+                            snapshot.data!.posReceiptNumber.toString(),
                             style: const TextStyle(
                                 color: Colors.black, fontSize: 18),
                           ),
@@ -298,25 +313,15 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                               fontSize: 18,
                             ),
                           ),
-                          const Text(
-                            'Open 9:30am - 11:00pm',
-                            style: TextStyle(
-                              color: Colors.green,
-                              fontSize: 18,
-                            ),
-                          ),
-                          const Text(
-                            'NTN # 123456',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text(
-                            'Socialise with us',
+                          // const Text(
+                          //   'Open 9:30am - 11:00pm',
+                          //   style: TextStyle(
+                          //     color: Colors.green,
+                          //     fontSize: 18,
+                          //   ),
+                          // ),
+                          Text(
+                            'NTN # ${snapshot.data!.merchant!.ntnNumber}',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 18,
@@ -325,40 +330,98 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                           const SizedBox(
                             height: 10,
                           ),
+                          snapshot.data!.merchant!.facebookUrl != null &&
+                                  snapshot.data!.merchant!.twitterUrl != null &&
+                                  snapshot.data!.merchant!.instagramUrl !=
+                                      null &&
+                                  snapshot.data!.merchant!.websiteUrl != null
+                              ? const Text(
+                                  'Socialise with us',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                )
+                              : SizedBox(),
+                          snapshot.data!.merchant!.facebookUrl != null &&
+                              snapshot.data!.merchant!.twitterUrl != null &&
+                              snapshot.data!.merchant!.instagramUrl !=
+                                  null &&
+                              snapshot.data!.merchant!.websiteUrl != null
+                              ? const SizedBox(
+                            height: 10,
+                          ):SizedBox(),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SvgPicture.asset(
-                                'assets/images/fbicon.svg',
-                                width: 30,
-                                height: 30,
-                              ),
+                              snapshot.data!.merchant!.facebookUrl != null
+                                  ? InkWell(
+                                      onTap: () async {
+                                        Uri uri=Uri.parse(snapshot.data!.merchant!.facebookUrl);
+                                        await launchUrl(uri);
+                                      },
+                                      child: SvgPicture.asset(
+                                        'assets/images/fbicon.svg',
+                                        width: 30,
+                                        height: 30,
+                                      ),
+                                    )
+                                  : SizedBox(),
                               const SizedBox(
                                 width: 12,
                               ),
-                              SvgPicture.asset('assets/images/instaicon.svg',
-                                  width: 30, height: 30),
+                              snapshot.data!.merchant!.instagramUrl != null
+                                  ? InkWell(
+                                      onTap: () async {
+                                        Uri uri=Uri.parse(snapshot.data!.merchant!.instagramUrl);
+                                        await launchUrl(uri);
+                                      },
+                                      child: SvgPicture.asset(
+                                          'assets/images/instaicon.svg',
+                                          width: 30,
+                                          height: 30),
+                                    )
+                                  : SizedBox(),
                               const SizedBox(
                                 width: 12,
                               ),
-                              SvgPicture.asset('assets/images/linkedinicon.svg',
-                                  width: 30, height: 30),
+                              snapshot.data!.merchant!.websiteUrl != null
+                                  ? InkWell(
+                                      onTap: () async {
+                                        Uri uri=Uri.parse(snapshot.data!.merchant!.websiteUrl);
+                                        await launchUrl(uri);
+                                      },
+                                      child: SvgPicture.asset(
+                                          'assets/images/linkedinicon.svg',
+                                          width: 30,
+                                          height: 30),
+                                    )
+                                  : SizedBox(),
                               const SizedBox(
                                 width: 12,
                               ),
-                              SvgPicture.asset('assets/images/twittericon.svg',
-                                  width: 30, height: 30)
+                              snapshot.data!.merchant!.twitterUrl != null
+                                  ? InkWell(
+                                      onTap: () async {
+                                        Uri uri=Uri.parse(snapshot.data!.merchant!.twitterUrl);
+                                        await launchUrl(uri);
+                                      },
+                                      child: SvgPicture.asset(
+                                          'assets/images/twittericon.svg',
+                                          width: 30,
+                                          height: 30))
+                                  : SizedBox(),
                             ],
                           ),
                         ],
                       ),
                     ),
 
-                    Image.asset(
-                      'assets/images/samplead.png',
-                      width: Get.width,
-                    ),
+                    // Image.asset(
+                    //   'assets/images/samplead.png',
+                    //   width: Get.width,
+                    // ),
 
                     Container(
                       width: Get.width,
@@ -374,7 +437,8 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                             children: [
                               const Text(
                                 'POWERED BY ',
-                                style: TextStyle(color: Colors.black, fontSize: 18),
+                                style: TextStyle(
+                                    color: Colors.black, fontSize: 18),
                               ),
                               Image.asset(
                                 'assets/images/logo.png',
@@ -396,7 +460,8 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                           ),
                           Text(
                             'Receipt id:${snapshot.data!.receiptNumber}',
-                            style: const TextStyle(color: Colors.black, fontSize: 13),
+                            style: const TextStyle(
+                                color: Colors.black, fontSize: 13),
                             textAlign: TextAlign.center,
                           ),
                           const SizedBox(

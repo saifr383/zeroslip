@@ -41,6 +41,7 @@ class LocalNotificationService{
           "pushnotificationappchannel",
           importance: Importance.max,
           priority: Priority.high,
+
         ),
       );
 

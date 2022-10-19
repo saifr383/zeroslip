@@ -7,6 +7,7 @@ import 'package:untitled1/model/homemodel.dart';
 
 
 import '../controller/authcontroller.dart';
+import '../controller/filtercontroller.dart';
 import '../services/services.dart';
 import '../utils/colors.dart';
 
@@ -20,6 +21,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   AuthController _authController = Get.find<AuthController>();
+  FilterController _controller = Get.put(FilterController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,7 +33,9 @@ class _HomeState extends State<Home> {
           builder: (context,AsyncSnapshot<HomeModel> snapshot) {
 
              if(snapshot.hasData)
-             {
+             {_controller.max =snapshot.data!.maxspending;
+             _controller.values.value =
+                 RangeValues(snapshot.data!.minspending,snapshot.data!.maxspending);
                var time=DateTime.now().hour;
 print((snapshot.data!.profileCompleted).toDouble());
                 return Padding(

@@ -4,6 +4,8 @@ class HomeModel {
   int profileCompleted;
    int paperSaved;
   String customer;
+  double maxspending;
+  double minspending;
 
   HomeModel({
     required this.totalReceipts,
@@ -11,11 +13,13 @@ class HomeModel {
     required this.profileCompleted,
     required this.paperSaved,
     required this.customer,
+    required this.maxspending,
+    required this.minspending
   });
 
 
    static  fromJson(Map<String, dynamic> json) {
-    var home=HomeModel(customer: json["customer"],totalReceipts:json['total_receipts']??0,paperSaved: json['paper_saved']??0,profileCompleted:json['profile_completed']??0,totalSpendings: json['total_spendings']??0);
+    var home=HomeModel(maxspending:json['max_spending'],minspending:json['min_spending'],customer: json["customer"],totalReceipts:json['total_receipts']??0,paperSaved: json['paper_saved']??0,profileCompleted:json['profile_completed']??0,totalSpendings: json['total_spendings']??0);
     return home;
   }
 

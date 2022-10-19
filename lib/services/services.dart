@@ -8,6 +8,8 @@ import 'package:untitled1/model/profilemodel.dart';
 import 'package:untitled1/model/receiptmodel.dart';
 import 'package:untitled1/utils/constants.dart';
 
+import '../model/storemode.dart';
+
 class Services {
   static Future<bool> generateOtp({
     required String phoneNo,
@@ -188,6 +190,55 @@ data.forEach((element) {list.add(ReceiptModel.fromJson(element));});
     else
       return false;
   }
+  static Future<List<StoreModel>> getStores({
+    required String token,
 
+  }) async {
+    print(token);
+    final hurl = Uri.parse(Constants.stores);
+
+    http.Response response = await http.get(
+      hurl,
+      headers: {
+        "Authorization": "Bearer $token",
+      },
+    );
+    List<StoreModel> list=[];
+
+    List data=jsonDecode(response.body);
+
+
+    data.forEach((element) {list.add(StoreModel.fromJson(element));});
+
+
+    return list;
+
+
+  }
+  static Future<List<StoreModel>> getCategory({
+    required String token,
+
+  }) async {
+    print(token);
+    final hurl = Uri.parse(Constants.category);
+
+    http.Response response = await http.get(
+      hurl,
+      headers: {
+        "Authorization": "Bearer $token",
+      },
+    );
+    List<StoreModel> list=[];
+
+    List data=jsonDecode(response.body);
+
+
+    data.forEach((element) {list.add(StoreModel.fromJson(element));});
+
+
+    return list;
+
+
+  }
 
 }

@@ -8,4 +8,6 @@ class Constants{
  static const String getProfileInfo='$baseUrl/api/v1/customer/profile/';
  static const String updateFcm='$baseUrl/api/v1/customer/fcm_token/';
  static const String logout='$baseUrl/api/v1/customer/logout/';
+ static const String stores='$baseUrl/api/v1/customer/stores/';
+ static const String category='$baseUrl/api/v1/customer/categories/';
 }

@@ -25,7 +25,8 @@ class _FilterPageState extends State<FilterPage> {
     startScreen=_controller.start.value;
     endScreen=_controller.end.value;
     valuescreen=_controller.values.value;
-    _controller.screendropdown.value=_controller.dropdownvalue;
+    _controller.screendropdown.value=_controller.dropdownvalue.value;
+    _controller.screencategorydropdown.value=_controller.categorydropdownvalue.value;
     // TODO: implement initState
     super.initState();
   }
@@ -72,6 +73,70 @@ class _FilterPageState extends State<FilterPage> {
                   ],
                 ),
                 SizedBox(height: 40,),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 15,vertical: 20),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: Color(0xfff5f5f5)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'SELECT CATEGORY',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 20,),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 15),
+                        width: MediaQuery.of(context).size.width,
+                        height: 50,
+                        decoration: BoxDecoration(border: Border.all(color: mainColor),borderRadius: BorderRadius.circular(5)),
+                        child: Stack(
+                          alignment: Alignment.centerLeft,
+                          children: [
+                            Icon(Icons.store,size: 30,color: mainColor,),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 35.0),
+                              child: DropdownButtonHideUnderline(
+
+                                child: DropdownButton(icon: Icon(Icons.keyboard_arrow_down_rounded,size: 25,color: mainColor,),
+
+                                  items: _controller.category
+                                      .map((value) => DropdownMenuItem(
+                                    child: Text(
+                                      value,
+                                      style: TextStyle(
+                                          color: mainColor,
+                                          fontSize: 18,
+                                          fontFamily: "Regular"),
+                                    ),
+                                    value: value,
+                                  ))
+                                      .toList(),
+                                  onChanged: (value) {
+                                    _controller.screencategorydropdown.value=value.toString();
+                                    setState((){});
+
+                                  },
+
+
+                                  value:  _controller.screencategorydropdown.value,
+                                  isExpanded: true,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10,),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 15,vertical: 20),
                   decoration: BoxDecoration(
@@ -268,7 +333,9 @@ class _FilterPageState extends State<FilterPage> {
                         _controller.start.value=startScreen;
                        _controller.end.value=endScreen;
                        _controller.values.value=valuescreen;
-                       _controller.dropdownvalue= _controller.screendropdown.value;
+                       _controller.dropdownvalue.value= _controller.screendropdown.value;
+                       _controller.categorydropdownvalue.value=_controller.screencategorydropdown.value;
+                       print(_controller.categorydropdownvalue.value== 'All');
                         Navigator.of(context).pop();
                       },
                       style: ElevatedButton.styleFrom(

@@ -1,8 +1,13 @@
+import 'dart:io';
+
+import 'package:barcode/barcode.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:untitled1/controller/receiptcontroller.dart';
 import 'package:untitled1/utils/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,7 +24,8 @@ class ReceiptDetail extends StatefulWidget {
 }
 
 class _ReceiptDetailState extends State<ReceiptDetail> {
-  double value = 1;
+  ReceiptController _controller=Get.put(ReceiptController());
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,6 +35,7 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
           future: Services.getReceiptDetail(number: widget.number),
           builder: (context, AsyncSnapshot<ReceiptModel?> snapshot) {
             if (snapshot.hasData) {
+           _controller.createBarcode(snapshot.data!.posReceiptNumber.toString());
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -243,6 +250,54 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                               ],
                             ),
                           ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 0),
+                            child: Row(
+                              children: [
+                                const Text(
+                                  'Discount',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  '${snapshot.data!.merchant!.country!.currency!.denotion!.substring(0, 2)} ${snapshot.data!.discount.toString()}',
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 8),
+                            child: Row(
+                              children: [
+                                const Text(
+                                  'Grand Total',
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  '${snapshot.data!.merchant!.country!.currency!.denotion!.substring(0, 2)} ${snapshot.data!.grandTotal.toString()}',
+                                  style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -264,24 +319,16 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                             height: 10,
                           ),
                           Text(
-                            snapshot.data!.posReceiptNumber.toString(),
-                            style: const TextStyle(
-                                color: Colors.black, fontSize: 18),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Image.asset(
-                            'assets/images/barcode.png',
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
                             snapshot.data!.receiptNumber.toString(),
                             style: const TextStyle(
                                 color: Colors.black, fontSize: 18),
                           ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Obx(()=> SvgPicture.file(File(_controller.path.value,),width: Get.width*0.7,)),
+
+
                           const SizedBox(
                             height: 20,
                           ),

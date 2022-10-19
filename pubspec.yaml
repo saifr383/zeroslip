@@ -49,6 +49,8 @@ dependencies:
   flutter_local_notifications: ^9.7.1
   firebase_core:
   url_launcher: ^6.1.5
+  barcode:
+  path_provider:
 
 
 dev_dependencies:

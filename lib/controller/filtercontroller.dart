@@ -3,8 +3,11 @@ import 'package:get/get.dart';
 
 class FilterController extends GetxController{
   List<String> store = ["All"];
-  var dropdownvalue="All";
+  List<String> category = ["All"];
+  var dropdownvalue="All".obs;
+  var categorydropdownvalue="All".obs;
   var screendropdown="All".obs;
+  var screencategorydropdown="All".obs;
   double min=0;
   double max=1;
 

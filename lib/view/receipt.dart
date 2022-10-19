@@ -9,6 +9,7 @@ import 'package:untitled1/services/services.dart';
 import '../controller/authcontroller.dart';
 import '../controller/filtercontroller.dart';
 import '../model/receiptmodel.dart';
+import '../model/storemode.dart';
 import '../utils/colors.dart';
 import 'filterpage.dart';
 import 'receiptdetail.dart';
@@ -21,6 +22,7 @@ class Receipt extends StatefulWidget {
 }
 
 class _ReceiptState extends State<Receipt> {
+
   List days = [
     'Monday',
     'Tuesday',
@@ -49,6 +51,21 @@ class _ReceiptState extends State<Receipt> {
   FilterController _controller = Get.put(FilterController());
   DateTime previousmonth=DateTime(3000,12);
   @override
+  void initState() {
+    // TODO: implement initState
+    getCategory();
+    getStores();
+    super.initState();
+  }
+  getStores() async {
+    List<StoreModel> stores=await Services.getStores(token: _authController.currentUser!.access);
+    stores.forEach((element) {_controller.store.add(element.name);});
+  }
+  getCategory() async {
+    List<StoreModel> category=await Services.getCategory(token: _authController.currentUser!.access);
+    category.forEach((element) {_controller.category.add(element.name);});
+  }
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -60,10 +77,10 @@ class _ReceiptState extends State<Receipt> {
             builder: (context, AsyncSnapshot<List<ReceiptModel>> snapshot) {
 
               if (snapshot.hasData) {
-                print('data comeeeeeeeeeeeeees');
+
                 var groupByDate = groupBy(snapshot.data!, (ReceiptModel obj) => DateTime(obj.createdAt!.year,obj.createdAt!.month));
                 List<DateTime> keys=groupByDate.keys.toList();
-               print(groupByDate.length);
+
                 return Padding(
                   padding: const EdgeInsets.all(12.0),
                   child: SingleChildScrollView(
@@ -146,27 +163,17 @@ class _ReceiptState extends State<Receipt> {
                                     itemCount: groupByDate[keys[indexdate]]!.length,
                                     itemBuilder: (context, index) {
 
-
-                                      if (!_controller.store.contains(
-                                          groupByDate[keys[indexdate]]![index].merchant!.name!)) {
-                                        _controller.store
-                                            .add(groupByDate[keys[indexdate]]![index].merchant!.name!);
-                                      }
-                                      if (_controller.max <
-                                          groupByDate[keys[indexdate]]![index].grandTotal!) {
-                                        _controller.max =groupByDate[keys[indexdate]]![index].grandTotal!;
-                                        _controller.values.value =
-                                            RangeValues(0,groupByDate[keys[indexdate]]![index].grandTotal!);
-
-                                      }
                                       return Obx(() => (_controller.values.value.end >=
                                           groupByDate[keys[indexdate]]![index].grandTotal! &&
                                               _controller.values.value.start <=
                                                   groupByDate[keys[indexdate]]![index].grandTotal! &&
-                                              (_controller.dropdownvalue == 'All' ||
-                                                  _controller.dropdownvalue ==
+                                              (_controller.dropdownvalue.value == 'All' ||
+                                                  _controller.dropdownvalue.value ==
                                                       groupByDate[keys[indexdate]]![index].merchant!
-                                                          .name) &&
+                                                          .name) &&((_controller.categorydropdownvalue.value== 'All' ||
+                                          _controller.categorydropdownvalue.value ==
+                                              groupByDate[keys[indexdate]]![index].merchant!
+                                                  .name) )&&
                                               ((groupByDate[keys[indexdate]]![index].createdAt
                                                       !.millisecondsSinceEpoch) >=
                                                   _controller.start.value

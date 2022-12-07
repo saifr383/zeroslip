@@ -68,7 +68,7 @@ class _ReceiptDetailState extends State<ReceiptDetail> {
                           ),
                           CachedNetworkImage(
                             imageUrl:
-                                '${Constants.baseUrl}${snapshot.data!.merchant!.logoUrl!.substring(6)}',
+                                '${Constants.baseUrl}${snapshot.data!.merchant!.logoUrl!}',
                             height: 120,
                             width: 150,
                             fit: BoxFit.fill,

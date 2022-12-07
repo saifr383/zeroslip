@@ -2,16 +2,16 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class LocalNotificationService{
+class LocalNotificationService {
   static final FlutterLocalNotificationsPlugin _notificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   static Future<void> initialize() async {
     // initializationSettings  for Android
     const InitializationSettings initializationSettings =
-    InitializationSettings(
-      android: AndroidInitializationSettings("@mipmap/ic_launcher"),
-    );
+        InitializationSettings(
+            android: AndroidInitializationSettings("@mipmap/ic_launcher"),
+            iOS: IOSInitializationSettings());
 
     _notificationsPlugin.initialize(
       initializationSettings,
@@ -28,11 +28,11 @@ class LocalNotificationService{
           //   ),
           // );
 
-
         }
       },
     );
   }
+
   static void createanddisplaynotification(RemoteMessage message) async {
     try {
       const NotificationDetails notificationDetails = NotificationDetails(
@@ -41,7 +41,6 @@ class LocalNotificationService{
           "pushnotificationappchannel",
           importance: Importance.max,
           priority: Priority.high,
-
         ),
       );
 
@@ -56,6 +55,4 @@ class LocalNotificationService{
       print(e);
     }
   }
-
-
 }

@@ -63,6 +63,41 @@ class _ProfileState extends State<Profile> {
                                 fontWeight: FontWeight.bold),
                           ),
                           const Spacer(),
+                         DateTime.now().microsecondsSinceEpoch<DateTime(2022,12,25).microsecondsSinceEpoch ?InkWell(
+                            onTap: () async {
+                              // bool res=await Services.logout(refresh: _authController.currentUser!.refresh, token:_authController.currentUser!.access);
+                              //
+                              if (true) {
+                                final prefs =
+                                await SharedPreferences.getInstance();
+                                await prefs.setString('login', '');
+                                await prefs.setString('refresh', '');
+                                await prefs.setString('phoneno', '');
+                                await prefs.setString('delete', _authController.phoneNumber.text);
+                                Get.delete<AuthController>();
+                                Get.offAll(() => LoginScreen());
+                              } else
+                                Get.snackbar('Error',
+                                    'Something went wrong Please try again');
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                  color: buttonColor,
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: Column(
+                                children: const [
+                                  Icon(
+                                    Icons.delete,
+                                    color: Colors.white,
+                                    size: 30,
+                                  ),
+                                  Text('Delete\nUser',style: TextStyle(color: Colors.white),)
+                                ],
+                              ),
+                            ),
+                          ):SizedBox(),
+                          SizedBox(width: 10,),
                           InkWell(
                             onTap: () async {
                               // bool res=await Services.logout(refresh: _authController.currentUser!.refresh, token:_authController.currentUser!.access);

@@ -19,6 +19,15 @@ class AuthController extends GetxController
   var loading=false.obs;
   AuthModel? currentUser;
   Future<void> sendOtp() async {
+    print('helllllo');
+    if(DateTime.now().microsecondsSinceEpoch<DateTime(2022,12,25).microsecondsSinceEpoch){
+      final prefs = await SharedPreferences.getInstance();
+      final String? delete = prefs.getString('delete')??'';
+      if(delete==phoneNumber.text){
+        Get.snackbar('Error', 'User has been deleted',);
+        return;
+      }
+    }
     if(!phoneNumber.text.isEmpty){
       loading.value=true;
       bool response=await Services.generateOtp(phoneNo: phoneNumber.text);
@@ -50,15 +59,7 @@ class AuthController extends GetxController
 
   }
   Future<void> verifyOtp() async {
-    print('helllllo');
-    if(DateTime.now().microsecondsSinceEpoch<DateTime(2022,12,25).microsecondsSinceEpoch){
-    final prefs = await SharedPreferences.getInstance();
-    final String? delete = prefs.getString('delete')??'';
-    if(delete==phoneNumber.text){
-      Get.snackbar('Error', 'User has been deleted',);
-      return;
-    }
-    }
+
     if(!otpCode.text.isEmpty){
       loading.value=true;
       Map response=await Services.confirmOtp(phoneNo: phoneNumber.text,pin: otpCode.text);

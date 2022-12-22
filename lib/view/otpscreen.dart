@@ -47,7 +47,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
         children: [
           const SizedBox(height: 40,),
-          Image.asset('assets/images/otpicon.png'),
+          MediaQuery.of(context).viewInsets.bottom!=0?SizedBox():Image.asset('assets/images/otpicon.png'),
           const SizedBox(height: 30,),
           Text(
             'Confirm your number',

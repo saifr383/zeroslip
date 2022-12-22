@@ -30,7 +30,7 @@ class _DashBoardState extends State<DashBoard> {
       ),
       PersistentBottomNavBarItem(
         icon: Icon(Icons.book_outlined),
-        title: ("Receiptz"),
+        title: ("Receipts"),
         activeColorPrimary: mainColor,
         inactiveColorPrimary: Colors.grey,
       ),
